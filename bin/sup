@@ -13,14 +13,20 @@ export ROOT_DIR="$(cd -P "$(dirname "${SOURCE_PATH}")"/.. && pwd)"
 COMMAND="${1}"
 ARGS=("${@:2}")
 
+install_yo() {
+  source "${ROOT_DIR}"/lib/npm.sh
+
+  echo "Installing a local copy of yo… "
+  add_or_update_package yo > /dev/null
+  echo "…local copy of yo installed"
+  echo
+}
+
 run_yo() {
   source "${ROOT_DIR}"/lib/npm.sh
 
   if [[ ! -x "${NODE_BIN_PATH}"/yo ]]; then
-    echo "Installing a local copy of yo… "
-    add_or_update_package yo > /dev/null
-    echo "…local copy of yo installed"
-    echo
+    install_yo
   fi
 
   "${NODE_BIN_PATH}"/yo "${@}"
@@ -44,6 +50,10 @@ case "${COMMAND}" in
   echo "  remove:  Remove a generator from sup's global registry."
   echo
   run_yo --help
+  ;;
+
+init)
+  install_yo
   ;;
 
 add|upgrade|remove):
