@@ -1,2 +1,12 @@
 #!/usr/bin/env bash
 set -e
+
+GENERATOR="${1}"
+if [[ -z "${GENERATOR}" ]]; then
+  echo "Usage: sup upgrade GENERATOR"
+  exit 1
+fi
+
+source ../lib/npm.sh
+
+add_or_update_package $(resolve_generator "${GENERATOR}")

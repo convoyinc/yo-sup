@@ -31,6 +31,32 @@ remove_package() {
   fi
 }
 
+package_is_generator() {
+  npm view "${1}" keywords 2> /dev/null | grep "'yeoman-generator'" > /dev/null
+}
+
+package_exists() {
+  npm view "${1}" name > /dev/null 2>&1
+}
+
+resolve_generator() {
+  GENERATOR="${1}"
+
+  if ! package_is_generator "${GENERATOR}"; then
+    if [[ "${GENERATOR}" =~ ^(@.+)/(.+)$ ]]; then
+      MAYBE_GENERATOR="${BASH_REMATCH[1]}"/generator-"${BASH_REMATCH[2]}"
+    else
+      MAYBE_GENERATOR=generator-"${GENERATOR}"
+    fi
+
+    if package_is_generator "${MAYBE_GENERATOR}"; then
+      GENERATOR="${MAYBE_GENERATOR}"
+    fi
+  fi
+
+  echo "${GENERATOR}"
+}
+
 # It would be neat if we could just specify --modules-folder or --prefix, but
 # yarn doens't like removing modules that aren't directly in node_modules.
 run_in_modules() {
