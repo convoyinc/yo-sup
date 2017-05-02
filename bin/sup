@@ -47,6 +47,7 @@ case "${COMMAND}" in
   echo "sup specific commands:"
   echo "  add:     Install a generator into sup's global registry."
   echo "  upgrade: Upgrade a generator in sup's global registry to its latest version."
+  echo "  link:    Symlinks a generator using yarn/npm link."
   echo "  remove:  Remove a generator from sup's global registry."
   echo
   run_yo --help
@@ -56,7 +57,7 @@ init)
   install_yo
   ;;
 
-add|upgrade|remove):
+add|upgrade|link|remove):
   run_command
   ;;
 
