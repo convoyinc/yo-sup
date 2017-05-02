@@ -41,6 +41,16 @@ link_package() {
   fi
 }
 
+unlink_package() {
+  PACKAGE_NAME="${1}"
+
+  if (( HAS_YARN )); then
+    run_in_modules yarn unlink "${PACKAGE_NAME}"
+  else
+    run_in_modules npm unlink "${PACKAGE_NAME}"
+  fi
+}
+
 package_is_generator() {
   npm view "${1}" keywords 2> /dev/null | grep "'yeoman-generator'" > /dev/null
 }

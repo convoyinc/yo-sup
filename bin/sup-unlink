@@ -1,0 +1,12 @@
+#!/usr/bin/env bash
+set -e
+
+GENERATOR="${1}"
+if [[ -z "${GENERATOR}" ]]; then
+  echo "Usage: sup unlink GENERATOR"
+  exit 1
+fi
+
+source ../lib/npm.sh
+
+unlink_package $(resolve_generator "${GENERATOR}")
