@@ -1,0 +1,57 @@
+#!/usr/bin/env bash
+set -e
+
+# http://stackoverflow.com/a/246128/422263
+SOURCE_PATH="${BASH_SOURCE[0]}"
+while [ -h "${SOURCE_PATH}" ]; do
+  ROOT_DIR="$(cd -P "$(dirname "${SOURCE_PATH}")" && pwd)"
+  SOURCE_PATH="$(readlink "${SOURCE_PATH}")"
+  [[ ${SOURCE_PATH} != /* ]] && SOURCE_PATH="${ROOT_DIR}/${SOURCE_PATH}"
+done
+export ROOT_DIR="$(cd -P "$(dirname "${SOURCE_PATH}")"/.. && pwd)"
+
+COMMAND="${1}"
+ARGS=("${@:2}")
+
+run_yo() {
+  source "${ROOT_DIR}"/lib/npm.sh
+
+  if [[ ! -x "${NODE_BIN_PATH}"/yo ]]; then
+    echo "Installing a local copy of yo… "
+    add_or_update_package yo > /dev/null
+    echo "…local copy of yo installed"
+    echo
+  fi
+
+  "${NODE_BIN_PATH}"/yo "${@}"
+}
+
+run_command() {
+  cd "${ROOT_DIR}"/bin
+  ./sup-"${COMMAND}" "${ARGS[@]}"
+}
+
+# Commands
+
+case "${COMMAND}" in
+
+--help)
+  echo "Running yo with yo-sup extensions"
+  echo
+  echo "sup specific commands:"
+  echo "  add:     Install a generator into sup's global registry."
+  echo "  upgrade: Upgrade a generator in sup's global registry to its latest version."
+  echo "  remove:  Remove a generator from sup's global registry."
+  echo
+  run_yo --help
+  ;;
+
+add|upgrade|remove):
+  run_command
+  ;;
+
+*)
+  run_yo "${COMMAND}" "${ARGS[@]}"
+  ;;
+
+esac
