@@ -58,7 +58,7 @@ init)
   install_yo
   ;;
 
-add|upgrade|link|remove):
+add|upgrade|link|unlink|remove):
   run_command
   ;;
 
