@@ -44,3 +44,16 @@ And when you've moved on, you can remove a generator, too:
 ```sh
 sup remove react-fullstack
 ```
+
+If you want to update `yo`:
+
+```sh
+sup init
+```
+
+
+## How's It Work?
+
+`sup` installs `yo` and any `sup add`ed generators to a path relative to its installation location (`modules/node_modules`).  Then, when passing commands through to `yo`, it simply runs the sandboxed `yo` rather than a copy that's already on your `$PATH`.
+
+:boom: now your generators survive across your various installs of node.  'cause you _are_ a faithful [`n`](https://github.com/tj/n), [`nvm`](https://github.com/creationix/nvm), [`nvs`](https://github.com/jasongin/nvs), etc user; _right_?
