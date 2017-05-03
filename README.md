@@ -2,7 +2,7 @@
 
 `sup` wraps [Yeoman](http://yeoman.io/)'s `yo` so that it is installed _globally_, outside of any particular Node installation, along with any generators that you would like to be global.
 
-_But why!?_  Because it can be challenging to manage your yeoman generators when you have a multitude of projects that span multiple node versions.  `sup` lets you set up your generators once, and not have to worry!
+_But why!?_  Because it can be challenging to manage your yeoman generators (and keep them in sync across node installations) when you have a multitude of projects that span multiple node versions.  `sup` lets you set up your generators once, and not have to worry!
 
 
 ## Installation
